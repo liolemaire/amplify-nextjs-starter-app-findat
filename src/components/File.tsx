@@ -8,7 +8,7 @@ const File = ({
   onDelete,
   isSignedIn,
 }: {
-  file: Pick<Schema["File"], "title" | "id">;
+  file: Pick<Schema["File"], "title" | "path" | "id">;
   onDelete: (id: string) => void;
   isSignedIn: boolean;
 }) => {
@@ -22,6 +22,8 @@ const File = ({
         <div className="flex gap-2">
           <div>Title:</div>
           <div>{file.title}</div>
+          <div>Path:</div>
+          <div>{file.path}</div>
         </div>
       </button>
       <input type="hidden" name="id" id="id" value={file.id} />

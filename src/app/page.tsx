@@ -4,7 +4,7 @@ import { onDeleteFile } from "./_actions/actions";
 
 export default async function Home() {
   const { data: files } = await cookieBasedClient.models.File?.list({
-    selectionSet: ["title", "id"],
+    selectionSet: ["title", "id", "path"],
     authMode: "apiKey",
   });
 

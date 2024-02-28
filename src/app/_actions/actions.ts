@@ -18,6 +18,7 @@ export async function onDeleteFile(id: string) {
 export async function createFile(formData: FormData) {
   const { data } = await cookieBasedClient.models.File.create({
     title: formData.get("title")?.toString() || "",
+    path: formData.get("path")?.toString() || "",
   });
   console.log("create File data", data);
   redirect("/");

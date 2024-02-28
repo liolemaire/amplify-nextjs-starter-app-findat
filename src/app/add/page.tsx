@@ -15,6 +15,13 @@ const AddFile = () => {
           placeholder="Title"
           className="border border-gray-200 text-gray-900 block p-2 rounded-lg"
         />
+        <input
+          type="text"
+          name="path"
+          id="path"
+          placeholder="path"
+          className="border border-gray-200 text-gray-900 block p-2 rounded-lg"
+        />
         <button type="submit" className="text-white bg-teal-600 rounded p-4">
           Submit
         </button>
