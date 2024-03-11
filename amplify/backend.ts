@@ -1,11 +1,13 @@
 import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource';
 import { data } from './data/resource';
+import { storage } from './storage/resource';
 // import * as s3 from 'aws-cdk-lib/aws-s3';
 // import * as cdk from 'aws-cdk-lib';
 const backend = defineBackend({
   auth,
   data,
+  storage
 });
 
 // create the bucket and its stack
@@ -28,10 +30,10 @@ const backend = defineBackend({
 
 // bucket.grantRead(unauthRole);
 
-backend.addOutput({
+// backend.addOutput({
 
-  aws_user_files_s3_bucket: "myfindatwebsite",
+//   aws_user_files_s3_bucket: "myfindatwebsite",
 
-  aws_user_files_s3_bucket_region: "us-east-1",
+//   aws_user_files_s3_bucket_region: "us-east-1",
 
-});
+// });
