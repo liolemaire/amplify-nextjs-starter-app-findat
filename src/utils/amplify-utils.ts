@@ -79,7 +79,7 @@ export const uploadFromServer = async (file: Buffer, fileName: string) =>
         return uploadResult; // Return the S3 object URL
       }
        catch (error) {
-        return false;
+        return error;
       }
     },
   });

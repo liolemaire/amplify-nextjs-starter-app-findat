@@ -39,6 +39,6 @@ export async function createFile(state: { status: string; message: string; }, fo
     revalidatePath("/");
     return { status: "success", message: "File has been upload." };
   } catch (error) {
-    return { status: "error", message: "Failed to upload file." };
+    return { status: "error", message: error };
   }
 }
