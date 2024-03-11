@@ -11,10 +11,13 @@
   "dependencies": {
     "@aws-amplify/adapter-nextjs": "^1.0.18",
     "@aws-amplify/ui-react": "^6.1.4",
+    "@aws-amplify/ui-react-storage": "^3.0.14",
+    "@aws-sdk/client-s3": "^3.525.0",
     "aws-amplify": "^6.0.18",
     "next": "14.1",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "sharp": "^0.33.2"
   },
   "devDependencies": {
     "@aws-amplify/backend": "^0.13.0-beta.3",

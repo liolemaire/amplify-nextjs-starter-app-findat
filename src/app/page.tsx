@@ -8,7 +8,7 @@ export default async function Home() {
     authMode: "apiKey",
   });
 
-  console.log("files", files);
+  // console.log("files", files);
 
   return (
     <main className="flex flex-col items-center justify-between p-24 w-1/2 m-auto">

@@ -1,11 +1,21 @@
+'use client';
 import React from "react";
-import { createFile } from "@/app/_actions/actions";
+import { createFile, createAction } from "@/app/_actions/actions";
+import { SubmitButton } from "./submit-button";
+import { useFormState } from "react-dom";
+
+const initialState = {
+  message: '',
+  status: ''
+}
 
 const AddFile = () => {
+  const [state, formAction] = useFormState(createFile, initialState);
+
   return (
     <div>
       <form
-        action={createFile}
+        action={createAction}
         className="p-4 flex flex-col items-center gap-4"
       >
         <input
@@ -22,10 +32,15 @@ const AddFile = () => {
           placeholder="path"
           className="border border-gray-200 text-gray-900 block p-2 rounded-lg"
         />
-        <button type="submit" className="text-white bg-teal-600 rounded p-4">
-          Submit
-        </button>
+        <input type="file" id="file" name="file" accept="images/*" />
+                
+        <SubmitButton />
       </form>
+      {state?.status && (
+        <div className={`state-message ${state?.status}`}>
+          {state?.message}
+        </div>
+      )}
     </div>
   );
 };
