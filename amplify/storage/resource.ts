@@ -5,7 +5,7 @@ export const storage = defineStorage({
 
   access: (allow) => ({
 
-    '/foo/{entity_id}/*': [
+    '/*': [
 
       allow.owner.to(['read','list','delete','write'])
 
