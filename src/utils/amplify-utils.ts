@@ -52,7 +52,7 @@ export const uploadFromServer = async (file: Buffer, fileName: string) =>
     async operation(contextSpec) {
       try {
         const session = await fetchAuthSession(contextSpec);
-        console.log(session);
+        // console.log(session);
         const accessKeyId =  session.credentials?.accessKeyId;
         const secretAccessKey =  session.credentials?.secretAccessKey;
         const sessionToken =  session.credentials?.sessionToken;

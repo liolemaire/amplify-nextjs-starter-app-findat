@@ -1,21 +1,17 @@
 'use client';
 import React from "react";
-import { createFile, createAction } from "@/app/_actions/actions";
+import { FormState, createAction } from "@/app/_actions/actions";
 import { SubmitButton } from "./submit-button";
 import { useFormState } from "react-dom";
 
-const initialState = {
-  message: '',
-  status: ''
-}
-
 const AddFile = () => {
-  const [state, formAction] = useFormState(createFile, initialState);
+  
+  const [state, wrappedCreateAction] = useFormState(createAction, {status:"",message:""} as FormState);
 
   return (
     <div>
       <form
-        action={createAction}
+        action={wrappedCreateAction}
         className="p-4 flex flex-col items-center gap-4"
       >
         <input
