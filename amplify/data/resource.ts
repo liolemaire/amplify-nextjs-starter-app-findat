@@ -15,6 +15,13 @@ const schema = a.schema({
       owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
     })
     .authorization([a.allow.public().to(["read"]), a.allow.owner()]),
+  Csvrow: a
+    .model({
+      content: a.string().required(),
+      path: a.string(),
+      owner: a.string().authorization([a.allow.owner().to(["read", "delete"])]),
+    })
+    .authorization([a.allow.public().to(["read"]), a.allow.owner()]),
   
 });
 

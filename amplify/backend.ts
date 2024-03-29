@@ -2,12 +2,14 @@ import { defineBackend } from '@aws-amplify/backend';
 import { auth } from './auth/resource';
 import { data } from './data/resource';
 import { storage } from './storage/resource';
+import { myDemoFunction } from './function/my-demo-function/resource'
 // import * as s3 from 'aws-cdk-lib/aws-s3';
 // import * as cdk from 'aws-cdk-lib';
 const backend = defineBackend({
   auth,
   data,
-  storage
+  storage,
+  myDemoFunction
 });
 
 // create the bucket and its stack
