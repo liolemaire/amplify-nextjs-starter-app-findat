@@ -1,11 +1,11 @@
 import { defineFunction } from '@aws-amplify/backend';
 
 
-export const myDemoFunction = defineFunction({
+export const conversionFunction = defineFunction({
 
 
 
-    name: 'myDemoFunction',
+    name: 'conversionFunction',
     entry: 'handler.ts' 
 
 });

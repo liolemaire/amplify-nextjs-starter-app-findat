@@ -68,7 +68,7 @@ export const uploadFromServer = async (file: Buffer, fileName: string) =>
         
         const uploadParams = {
           Bucket: BUCKET_NAME,
-          Key: fileName,
+          Key: 'uploads/' + fileName,
           Body: file,
         };
 

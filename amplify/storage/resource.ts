@@ -1,11 +1,12 @@
 import { defineStorage } from '@aws-amplify/backend';
 import { defineFunction } from '@aws-amplify/backend';
-import { myDemoFunction } from '../function/my-demo-function/resource'
+import { conversionFunction } from '../function/conversion-function/resource'
 export const storage = defineStorage({
   name: 'myProjectFiles',
   triggers: {
 
-    onUpload: myDemoFunction
+    onUpload: conversionFunction,
+    
     
     // defineFunction({
     //   name:'myDemoFunction',
@@ -18,7 +19,7 @@ export const storage = defineStorage({
     '/*': [
 
       allow.owner.to(['read','list','delete','write']),
-      allow.resource(myDemoFunction).to(['read', 'write', 'list', 'delete'])
+      allow.resource(conversionFunction).to(['read', 'write', 'list', 'delete'])
     ]
 
   })
