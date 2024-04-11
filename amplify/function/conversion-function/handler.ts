@@ -23,44 +23,32 @@ interface CSVRow {
 
 
 export const handler: S3Handler = async (event) => {
-  console.log("s3client : " + s3Client);
   console.log("event : " + JSON.stringify(event));
-  console.log("event records" + event.Records);
   const objectKeys = event.Records.map((record) => record.s3.object.key);
-
-  console.log(`Upload handler invoked for objects [${objectKeys.join(', ')}]`);
-
 
   const key = decodeURIComponent(event.Records[0].s3.object.key);
 
   if (key.includes('processed')) {
     console.log('File already processed. Skipping...');
     return;
+  } else {
+    console.log('processing ' + key);
   }
-
-  console.log("BUCKET NAME" + bucketName);
-  console.log("REGION" + REGION);
-  console.log("KEY" + key);
-
-  // const bucketName = event.Records[0].s3.bucket.name;
 
   const getObjectParams = {
     Bucket: bucketName,
     Key: key,
   };
 
-
   try {
     const { Body } = await s3Client.send(new GetObjectCommand(getObjectParams));
 
     if (Body) {
-      // await processCSV(Body as Readable);
-      console.log(Body);
       const stream = Body as Readable;
 
-      const utf8Stream = stream.pipe(iconv.decodeStream('iso8859-1')).pipe(iconv.encodeStream('utf8'));
+      const utf8Stream = stream.pipe(iconv.decodeStream('iso8859-1'))
+      .pipe(iconv.encodeStream('utf8'));
 
-//      const convertedFileName = `processed/${key}`; // Modify the file name
       const convertedFileName = `processed/${key}`.replace('uploads/', ''); // Modify the file name
 
 
@@ -81,7 +69,8 @@ export const handler: S3Handler = async (event) => {
         throw error;
       }
 
-      //await processCSV(Body as Readable);
+      await processCsvWrapper(convertedFileName);
+
     }
     console.log("file handled");
 
@@ -95,16 +84,47 @@ export const handler: S3Handler = async (event) => {
 
 const options: Options = {
   separator: ';',
-
+  newline: '\r'
 };
 
+const processCsvWrapper = async (key : any) =>{
+  console.log('process csv wrapper received key : ' + key);
+
+  if (key.includes('upload')) {
+    console.log('File not converted. Skipping...');
+    return;
+  } else {
+    console.log('processing ' + key);
+  }
+
+  const getObjectParams = {
+    Bucket: bucketName,
+    Key: key,
+  };
+
+  try {
+    const { Body } = await s3Client.send(new GetObjectCommand(getObjectParams));
+
+    if (Body) {
+      const stream = Body as Readable;
+      await processCSV(stream);
+    }
+  } catch (error){
+    console.log(error);
+    
+  }
+}
+
 const processCSV = async (stream: Readable) => {
+  console.log('processing csv');
+  console.log('stream' + JSON.stringify(stream));
+
   return new Promise<void>((resolve, reject) => {
     stream
       .pipe(csvParser(options))
       .on("data", async (row: CSVRow) => {
         // await insertIntoDynamoDB(row);
-        console.log(row)
+        console.log(' row : ' + row)
       })
       .on("end", () => {
         console.log("CSV file successfully processed");
@@ -131,23 +151,24 @@ const processCSV = async (stream: Readable) => {
 //   }
 // };
 
-const uploadFileToS3 = async (fileStream: Readable, key: string) => {
-  const params = {
-    client: s3Client,
-    params: {
-      Bucket: bucketName,
-      Key: key,
-      Body: fileStream
-    }
-  };
+// const uploadFileToS3 = async (fileStream: Readable, key: string) => {
+//   const params = {
+//     client: s3Client,
+//     params: {
+//       Bucket: bucketName,
+//       Key: key,
+//       Body: fileStream
+//     }
+//   };
 
-  const upload = new Upload(params);
+//   const upload = new Upload(params);
 
-  try {
-    const result = await upload.done(); // Start the upload process
-    console.log("File uploaded successfully:", result.Key);
-  } catch (error) {
-    console.error("Error uploading file to S3:", error);
-    throw error;
-  }
-};
+//   try {
+//     const result = await upload.done(); // Start the upload process
+//     console.log("File uploaded successfully:", result.Key);
+//   } catch (error) {
+//     console.error("Error uploading file to S3:", error);
+//     throw error;
+//   }
+// };
+
